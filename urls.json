@@ -40,6 +40,14 @@
     "accent": "#ef4444"
   },
   {
+    "title": "Utilidades de Megasoft",
+    "url": "https://drive.google.com/drive/folders/1W7G8X8nLKoL477Fuz0sDgCr2cCs7QTQY?usp=drive_link",
+    "description": "Carpeta de instalación de Megasoft, los drivers del Pinpad y la instalación de Java. También incluye el manual de instalación en PDF y un archivo .bat para reiniciar manualmente el servicio de Megasoft cuando deja de responder",
+    "category": "Herramientas",
+    "icon": "🛠️",
+    "accent": "#ef4444"
+  },
+  {
     "title": "Deepcompany - Backoffice",
     "url": "https://www.deepcompany.com/sys/auth/login",
     "description": "Backoffice de Deepcompany\nNombre de usuario: nombre_de_usuario@nombre_de_cliente\nClave: se crea por el Backoffice",
