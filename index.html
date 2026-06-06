@@ -1044,18 +1044,22 @@
     }
 
     function updateBanner() {
-      let sourceStr = '';
-      let indicatorClass = '';
+      const indicator = document.getElementById('source-indicator');
+      const label = document.getElementById('source-label');
+      
+      if (!indicator || !label) return;
       
       if (state.source === 'auto') {
-        sourceStr = '<div class="source-indicator"></div>Cargado automáticamente desde <code>urls.json</code>';
+        indicator.className = 'source-indicator';
+        label.innerHTML = 'Cargado automáticamente desde <code>urls.json</code>';
       } else if (state.source === 'local') {
-        sourceStr = '<div class="source-indicator local"></div>Cargado desde el archivo importado';
+        indicator.className = 'source-indicator local';
+        label.innerHTML = 'Cargado desde el archivo importado';
       } else if (state.source === 'sample') {
-        sourceStr = '<div class="source-indicator local"></div>Usando datos de ejemplo de Hub';
+        indicator.className = 'source-indicator local';
+        label.innerHTML = 'Usando datos de ejemplo de Hub';
       }
       
-      elements.sourceText.innerHTML = sourceStr;
       elements.statsText.innerText = `${state.items.length} enlace${state.items.length !== 1 ? 's' : ''} cargado${state.items.length !== 1 ? 's' : ''}`;
     }
 
