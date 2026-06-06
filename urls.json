@@ -24,6 +24,14 @@
     "accent": "#10b981"
   },
   {
+    "title": "Utilidades - Instalaciones",
+    "url": "https://drive.google.com/drive/folders/1PkY3yjGidP2MNAzc7vpVO0k49W3ySvu5?usp=drive_link",
+    "description": "Apliaciones necesarias para instalaciones.",
+    "category": "Herramientas",
+    "icon": "🛠️",
+    "accent": "#ef4444"
+  },
+  {
     "title": "Deepcompany - Admin",
     "url": "https://www.deepcompany.com/admin/auth/login",
     "description": "Portal de admin - Deepcompany, nugh said",
