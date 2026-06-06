@@ -611,6 +611,77 @@
         justify-content: space-between;
       }
     }
+
+    /* Hidden Easter Egg Metadata Tooltip */
+    .metadata-tooltip {
+      position: absolute;
+      bottom: 45px;
+      left: 1.5rem;
+      background: rgba(18, 14, 30, 0.95);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      width: 280px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      z-index: 100;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: left;
+    }
+
+    .metadata-tooltip.show {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .metadata-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .metadata-title i {
+      width: 14px;
+      height: 14px;
+      color: #8b5cf6;
+    }
+
+    .metadata-row {
+      margin-bottom: 0.35rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .metadata-val {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .metadata-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: #8b5cf6;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    .metadata-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -679,12 +750,31 @@
     </div>
 
     <!-- Bottom Indicator -->
-    <div class="source-banner" id="source-banner">
-      <span id="source-text">
-        <div class="source-indicator"></div>
-        Cargando configuración...
+    <div class="source-banner" id="source-banner" style="position: relative;">
+      <span id="source-text" style="display: flex; align-items: center; gap: 0.5rem;">
+        <div class="source-indicator" id="source-indicator" style="cursor: pointer;"></div>
+        <span id="source-label">Cargando configuración...</span>
       </span>
       <span id="stats-text">0 enlaces cargados</span>
+      
+      <!-- Hidden Tooltip -->
+      <div class="metadata-tooltip" id="metadata-tooltip">
+        <div class="metadata-title">
+          <i data-lucide="git-branch"></i>
+          <span>Detalles de Carga (urls.json)</span>
+        </div>
+        <div class="metadata-row">
+          <span>Subido el:</span>
+          <span class="metadata-val" id="meta-date">Cargando...</span>
+        </div>
+        <div class="metadata-row">
+          <span>Autor:</span>
+          <span class="metadata-val" id="meta-author">Cargando...</span>
+        </div>
+        <a href="#" target="_blank" class="metadata-link" id="meta-repo-link">
+          Ver código en GitHub <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+        </a>
+      </div>
     </div>
   </main>
 
@@ -789,17 +879,19 @@
 
     // Load URL list on startup
     async function loadData() {
-      // 1. Try session storage first (for local refreshes)
-      const cached = sessionStorage.getItem('urls_data');
-      if (cached) {
-        try {
-          const parsed = JSON.parse(cached);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            setupAppState(parsed, 'local');
-            showToast('Enlaces cargados de la sesión');
-            return;
-          }
-        } catch(e) {}
+      // 1. Try session storage first (only for local file:// mode refreshes)
+      if (window.location.protocol === 'file:') {
+        const cached = sessionStorage.getItem('urls_data');
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setupAppState(parsed, 'local');
+              showToast('Enlaces cargados de la sesión');
+              return;
+            }
+          } catch(e) {}
+        }
       }
 
       // 2. Try to fetch from the local folder with cache-busting
@@ -1053,10 +1145,100 @@
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
       setupEventListeners();
+      initEasterEgg();
       loadData().then(() => {
         lucide.createIcons();
       });
     });
+    // Hidden Easter Egg Metadata Tooltip logic
+    let clickCount = 0;
+    let lastClickTime = 0;
+    let isMetaLoaded = false;
+
+    function initEasterEgg() {
+      const indicator = document.getElementById('source-indicator');
+      const tooltip = document.getElementById('metadata-tooltip');
+      
+      if (!indicator || !tooltip) return;
+
+      indicator.addEventListener('click', (e) => {
+        const now = Date.now();
+        if (now - lastClickTime < 800) {
+          clickCount++;
+        } else {
+          clickCount = 1;
+        }
+        lastClickTime = now;
+
+        if (clickCount === 5) {
+          clickCount = 0; // Reset
+          toggleMetadataTooltip();
+        }
+      });
+
+      // Close when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!tooltip.contains(e.target) && e.target !== indicator) {
+          tooltip.classList.remove('show');
+        }
+      });
+    }
+
+    async function toggleMetadataTooltip() {
+      const tooltip = document.getElementById('metadata-tooltip');
+      if (!tooltip) return;
+      
+      if (tooltip.classList.contains('show')) {
+        tooltip.classList.remove('show');
+        return;
+      }
+
+      tooltip.classList.add('show');
+      
+      if (isMetaLoaded) return; // Don't reload if already fetched
+
+      const host = window.location.hostname;
+      const path = window.location.pathname;
+      
+      // Try to parse GitHub details from URL
+      if (host.endsWith('github.io')) {
+        const owner = host.split('.')[0];
+        const repo = path.split('/')[1] || '';
+        
+        if (owner && repo) {
+          document.getElementById('meta-repo-link').href = `https://github.com/${owner}/${repo}`;
+          
+          try {
+            const apiURL = `https://api.github.com/repos/${owner}/${repo}/commits?path=urls.json&page=1&per_page=1`;
+            const res = await fetch(apiURL);
+            if (res.ok) {
+              const commits = await res.json();
+              if (commits && commits.length > 0) {
+                const commit = commits[0];
+                const date = new Date(commit.commit.author.date);
+                const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const author = commit.author ? commit.author.login : commit.commit.author.name;
+                
+                document.getElementById('meta-date').innerText = formattedDate;
+                document.getElementById('meta-author').innerText = author;
+                isMetaLoaded = true;
+                lucide.createIcons();
+                return;
+              }
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+      
+      // Fallback if not on GitHub Pages or fetch fails
+      document.getElementById('meta-date').innerText = 'Local / No disponible';
+      document.getElementById('meta-author').innerText = 'Local';
+      document.getElementById('meta-repo-link').href = 'https://github.com/';
+      isMetaLoaded = true;
+      lucide.createIcons();
+    }
   </script>
 </body>
 </html>
