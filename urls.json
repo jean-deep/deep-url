@@ -13,7 +13,7 @@
     "description": "Aplicación POS de autopago de Parkeate, para instalar en las computadoras de autoservicio",
     "category": "Parkeate",
     "icon": "💻",
-    "accent": "#d946ef"
+    "accent": "#6366f1"
   },
   {
     "title": "Configurador Megasoft",
@@ -38,6 +38,14 @@
     "category": "Herramientas",
     "icon": "🛠️",
     "accent": "#ef4444"
+  },
+  {
+    "title": "Deepcompany - Backoffice",
+    "url": "https://www.deepcompany.com/sys/auth/login",
+    "description": "Backoffice de Deepcompany\nNombre de usuario: nombre_de_usuario@nombre_de_cliente\nClave: se crea por el Backoffice",
+    "category": "Parkeate",
+    "icon": "🌐",
+    "accent": "#6366f1"
   },
   {
     "title": "Deepcompany - Admin",
