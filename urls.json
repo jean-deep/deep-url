@@ -14,5 +14,13 @@
     "category": "Parkeate",
     "icon": "💻",
     "accent": "#d946ef"
+  },
+  {
+    "title": "Configurador Megasoft",
+    "url": "https://jean-deep.github.io/megasoft-config/",
+    "description": "Portal web de configuración de Megasoft para el setup de aplicaciones y parámetros del sistema.",
+    "category": "Megasoft",
+    "icon": "⚙️",
+    "accent": "#10b981"
   }
 ]
