@@ -32,6 +32,14 @@
     "accent": "#ef4444"
   },
   {
+    "title": "Impresoras Fiscales",
+    "url": "https://drive.google.com/drive/folders/1yCNIDjyPnzgLAcv2zRJ_THWclhhXTfjG?usp=drive_link",
+    "description": "Herramientas y manuales de impresoras fiscales PNP y HKA\nIncluye el Monitor de Puerto Serial",
+    "category": "Herramientas",
+    "icon": "🛠️",
+    "accent": "#ef4444"
+  },
+  {
     "title": "Deepcompany - Admin",
     "url": "https://www.deepcompany.com/admin/auth/login",
     "description": "Portal de admin - Deepcompany, nugh said",
