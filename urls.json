@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Isntalador POS, versión 1.2.5",
+    "url": "https://drive.google.com/file/d/1G9jOzBOsoSXGwmcylicFbQvlp0wioJM4/view?usp=drive_link",
+    "description": "Aplicación POS de Parkeate, para instalar en cajas",
+    "category": "Parkeate",
+    "icon": "💻",
+    "accent": "#6366f1"
+  },
+  {
+    "title": "Isntalador Kiosk, versión 1.1.8",
+    "url": "https://drive.google.com/file/d/17JAFLQG68VeMzKAHvzv5D0N9aqqaAgUx/view?usp=drive_link",
+    "description": "Aplicación POS de autopago de Parkeate, para instalar en las computadoras de autoservicio",
+    "category": "Parkeate",
+    "icon": "💻",
+    "accent": "#d946ef"
+  }
+]
