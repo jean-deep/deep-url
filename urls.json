@@ -22,5 +22,13 @@
     "category": "Megasoft",
     "icon": "⚙️",
     "accent": "#10b981"
+  },
+  {
+    "title": "Deepcompany - Admin",
+    "url": "https://www.deepcompany.com/admin/auth/login",
+    "description": "Portal de admin - Deepcompany, nugh said",
+    "category": "Deepcompany",
+    "icon": "🌐",
+    "accent": "#06b6d4"
   }
 ]
