@@ -70,5 +70,21 @@
     "category": "Deepcompany",
     "icon": "🌐",
     "accent": "#06b6d4"
+  },
+  {
+    "title": "Github - jean-deep",
+    "url": "https://github.com/jean-deep/",
+    "description": "Cuenta de jean-deep en github",
+    "category": "Otros",
+    "icon": "🌐",
+    "accent": "#d946ef"
+  },
+  {
+    "title": "Github - Parkeateve",
+    "url": "https://github.com/parkeateve",
+    "description": "Cuenta de Parkeate en github",
+    "category": "Otros",
+    "icon": "🌐",
+    "accent": "#d946ef"
   }
 ]
